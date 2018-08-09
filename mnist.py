@@ -12,7 +12,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # 移除ssl校验
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# laod mnist data
+# load mnist data
 (X_train,Y_train),(X_test,Y_test) = mnist.load_data();
 
 fig = plt.figure()
