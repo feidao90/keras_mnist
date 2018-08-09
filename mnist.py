@@ -105,7 +105,8 @@ fig
 # serialize model to JSON
 model_digit_json = model.to_json()
 with open("model_digit.json", "w") as json_file:
+    # 不包含权重或配置信息，只有模型结构
     json_file.write(model_digit_json)
-# serialize weights to HDF5
+# serialize weights to HDF5,包含权重或配置信息,keras.models.load_model(filepath)读取模型
 model.save_weights("model_digit.h5")
 print("Saved model to disk")
