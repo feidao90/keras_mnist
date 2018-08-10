@@ -110,3 +110,26 @@ with open("model_digit.json", "w") as json_file:
 # serialize weights to HDF5,包含权重或配置信息,keras.models.load_model(filepath)读取模型
 model.save_weights("model_digit.h5")
 print("Saved model to disk")
+
+# output middle layer
+from keras.models import Model
+layer_name = 'my_layer'
+intermediate_layer_model = Model(input=model.input,output=model.get_layer(layer_name).output)
+intermediate_output = intermediate_layer_model.predict()
+
+get_3rd_layer_outpu = k.function([model.layers[0].input],[model.layers[3].output])
+layer_output = get_3rd_layer_outpu([model])[0]
+
+# 处理泛化数据（非数据集的数据)
+#model.test_on_batch(x,y)
+#model.train_on_batch(X,y)
+#model.fit_generator(data_generator, samples_per_epoch, nb_epoch)
+
+# 中断训练
+from keras.callbacks import EarlyStopping
+early_stopping = EarlyStopping(monitor='val_loss', patience=2)
+model.fit(X_train, Y_train, validation_split=0.2, callbacks=[early_stopping])
+
+# 记录训练/测试的loss和正确率
+hist = model.fit(X, y, validation_split=0.2)
+print(hist.history)
